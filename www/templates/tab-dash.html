@@ -1,0 +1,28 @@
+<ion-view view-title="Messages" >
+  <ion-content class="padding" ng-controller="DashCtrl">
+    <div class = "list">
+
+
+
+
+    <div class="list card">
+      <div class="item item-divider"><i class = "icon ion-email"></i> Please enter post:</div>
+      <div class="item item-body">
+        <label>Please <span ng-bind="auth.profile.given_name"></span>, provide Content here :</label>
+        <input type="text" id = "postContent" ng-model ="postContent"> <br />
+
+
+
+
+        <div>
+          <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}">
+          <img class = "dashImg" ng-show="imgURI === undefined" ng-src="http://placehold.it/50x50">
+          <button class="button" ng-click="takePicture()">Take Picture</button>
+        </div>
+        <button class ="btn btn-default" ng-click="savePost()">Save <span class = "glyphicon glypicon-ok"></span></button>
+      </div>
+  </div>
+
+</div>
+  </ion-content>
+</ion-view>

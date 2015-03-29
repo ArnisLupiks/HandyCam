@@ -1,0 +1,22 @@
+<ion-view view-title="Posts">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="post in Posts | toArray | orderBy:'-postDate'" type="item-text-wrap" href="#/tab/chats/{{post.id}}">
+        <img ng-src="{{post.postAuthorPic}}">
+        <h2>{{post.postAuthor}}</h2>
+        <p>{{post.postContent}}</p>
+        <img class = "postsImg" ng-src = "{{post.postImage}}" alt="" />
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+
+
+
+
+      </ion-item>
+    </ion-list>
+
+
+
+
+  </ion-content>
+</ion-view>
