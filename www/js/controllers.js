@@ -35,7 +35,6 @@ angular.module('starter.controllers', [])
   $scope.postImage = "";
   $scope.likes = 0;
 
-
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
 
   $scope.takePicture = function() {
@@ -85,12 +84,12 @@ angular.module('starter.controllers', [])
         });
     }
 })
+//one click directive
 .directive('clickOnce', function($timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
             var replacementText = attrs.clickOnce;
-
             element.bind('click', function() {
                 $timeout(function() {
                     if (replacementText) {
@@ -102,7 +101,7 @@ angular.module('starter.controllers', [])
         }
     };
 })
-//safe apply mode for modules
+//safe factory apply mode for modules
 .factory('safeApply', [function($rootScope) {
     return function($scope, fn) {
         var phase = $scope.$root.$$phase;
@@ -119,7 +118,7 @@ angular.module('starter.controllers', [])
         }
     }
 }])
-.controller('ChatsCtrl', function($scope,$filter,safeApply, $http) {
+.controller('ChatsCtrl', function($scope,$filter, safeApply, auth, $http) {
   //set arraylist with details from database
   $scope.Posts = {};
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
@@ -142,7 +141,12 @@ angular.module('starter.controllers', [])
     }
 
   $scope.delete = function(post){
-
+    if (post.postAuthorId == auth.profile.user_id){
+      var removePost = $scope.myData.child(post.$key);
+      removePost.remove();
+    }else{
+      console.log("you are not authorise to do it!");
+    }
   }
 })
 
