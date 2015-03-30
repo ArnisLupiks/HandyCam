@@ -118,7 +118,7 @@ angular.module('starter.controllers', [])
         }
     }
 }])
-.controller('ChatsCtrl', function($scope,$filter, safeApply, auth, $http) {
+.controller('ChatsCtrl', function($scope,$filter, safeApply,$ionicPopup, auth, $http) {
   //set arraylist with details from database
   $scope.Posts = {};
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
@@ -144,10 +144,29 @@ angular.module('starter.controllers', [])
     if (post.postAuthorId == auth.profile.user_id){
       var removePost = $scope.myData.child(post.$key);
       removePost.remove();
+      $scope.showAlert1();
     }else{
       console.log("you are not authorise to do it!");
+      $scope.showAlert();
     }
   }
+  // An alert dialog
+  $scope.showAlert = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Sorry, you can\'t delete it!',
+    });
+    alertPopup.then(function(res) {
+      console.log('Thank you your pations');
+    });
+  };
+  $scope.showAlert1 = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Your post has been deleted successfully!',
+    });
+    alertPopup.then(function(res) {
+      console.log('Thank you for deleting post');
+    });
+  };
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
