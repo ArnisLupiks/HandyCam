@@ -99,9 +99,11 @@ angular.module('starter.controllers', [])
     alert("clicked: "+ item.postAuthor);
   }
 
-  $scope.count = function(likes){
-    $scope.newLike = likes + 1;
-    $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
+  $scope.count = function(post){
+  //  $scope.like = likes + 1;
+    console.log("This is post ID: " ,post.$key);
+
+  //  $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
   //  $scope.myData.update({likes:$scope.newLikes});
 
   console.log("I think this is index of the post" + $scope.newLikes);
