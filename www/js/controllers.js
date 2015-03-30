@@ -32,7 +32,8 @@ angular.module('starter.controllers', [])
   $scope.postAuthor = auth.profile.name;
   $scope.postAuthorPic = auth.profile.picture;
   $scope.postContent = "";
-  $scope.postImage = [];
+  $scope.postImage = "";
+  $scope.likes = 0;
 
 
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
@@ -50,8 +51,7 @@ angular.module('starter.controllers', [])
            saveToPhotoAlbum: false
        };
        $cordovaCamera.getPicture(options).then(function(imageData) {
-          $scope.postImage = imageData;
-           $scope.imgURI = "data:image/jpeg;base64," + imageData;
+           $scope.postImage = "data:image/jpeg;base64," + imageData;
        }, function(err) {
            // An error occured. Show a message to the user
        });
@@ -61,7 +61,8 @@ angular.module('starter.controllers', [])
                          postAuthorPic:$scope.postAuthorPic,
                          postContent:$scope.postContent,
                          postImage:$scope.postImage,
-                         postDate:Date.now()
+                         postDate:Date.now(),
+                         likes:$scope.likes
                          });
 
    },function(err){
@@ -85,12 +86,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ChatsCtrl', function($scope,$filter, $http) {
-  var orderBy = $filter('orderBy');
-          $scope.order = function(predicate, reverse){
-                  $scope.posts = orderBy($scope.posts, predicate, reverse);
-          };
-          $scope.order ('-postDate',false);
-
   //set arraylist with details from database
   $scope.Posts = {};
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
@@ -103,6 +98,14 @@ angular.module('starter.controllers', [])
   $scope.myData.doClick = function(item, event){
     alert("clicked: "+ item.postAuthor);
   }
+
+  $scope.count = function(likes){
+    $scope.newLike = likes + 1;
+    $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
+  //  $scope.myData.update({likes:$scope.newLikes});
+
+  console.log("I think this is index of the post" + $scope.newLikes);
+}
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
@@ -110,6 +113,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope,store,$state, auth) {
+  $scope.auth = auth;
+
   $scope.settings = {
     enableFriends: true
   };
