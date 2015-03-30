@@ -84,7 +84,23 @@ angular.module('starter.controllers', [])
         });
     }
 })
+.directive('clickOnce', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var replacementText = attrs.clickOnce;
 
+            element.bind('click', function() {
+                $timeout(function() {
+                    if (replacementText) {
+                        element.html(replacementText);
+                    }
+                    element.attr('disabled', true);
+                }, 0);
+            });
+        }
+    };
+})
 .controller('ChatsCtrl', function($scope,$filter, $http) {
   //set arraylist with details from database
   $scope.Posts = {};
@@ -100,13 +116,18 @@ angular.module('starter.controllers', [])
   }
 
   $scope.count = function(post){
-  //  $scope.like = likes + 1;
+    $scope.like = post.likes;
     console.log("This is post ID: " ,post.$key);
 
+    $scope.like = post.likes + 1;
+    var likeRef = $scope.myData.child(post.$key);
+    likeRef.update({
+      likes:$scope.like
+    });
   //  $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
   //  $scope.myData.update({likes:$scope.newLikes});
 
-  console.log("I think this is index of the post" + $scope.newLikes);
+  console.log("I think this is index of the post" +   $scope.like);
 }
 })
 
