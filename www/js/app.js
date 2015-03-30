@@ -75,19 +75,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'
       }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        },
-        data: {
-        requiresLogin: true
-      }
-      }
-    })
-
+  
   .state('tab.account', {
     url: '/account',
     views: {
