@@ -28,7 +28,7 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope,  $cordovaCamera, auth) {
 
   $scope.auth = auth;
-
+  $scope.postAuthorId = auth.profile.user_id;
   $scope.postAuthor = auth.profile.name;
   $scope.postAuthorPic = auth.profile.picture;
   $scope.postContent = "";
@@ -57,7 +57,8 @@ angular.module('starter.controllers', [])
        });
    };
    $scope.savePost = function(){
-     $scope.myData.push({postAuthor:$scope.postAuthor,
+     $scope.myData.push({postAuthorId:$scope.postAuthorId,
+                         postAuthor:$scope.postAuthor,
                          postAuthorPic:$scope.postAuthorPic,
                          postContent:$scope.postContent,
                          postImage:$scope.postImage,
@@ -101,34 +102,48 @@ angular.module('starter.controllers', [])
         }
     };
 })
-.controller('ChatsCtrl', function($scope,$filter, $http) {
+//safe apply mode for modules
+.factory('safeApply', [function($rootScope) {
+    return function($scope, fn) {
+        var phase = $scope.$root.$$phase;
+        if(phase == '$apply' || phase == '$digest') {
+            if (fn) {
+                $scope.$eval(fn);
+            }
+        } else {
+            if (fn) {
+                $scope.$apply(fn);
+            } else {
+                $scope.$apply();
+            }
+        }
+    }
+}])
+.controller('ChatsCtrl', function($scope,$filter,safeApply, $http) {
   //set arraylist with details from database
   $scope.Posts = {};
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
   $scope.myData.on('value', function(snapshot){
     $scope.Posts = snapshot.val();
-    $scope.$apply();
+    safeApply($scope);
   },function(err){
     console.log("hey there, you have an error in : " +err);
   });
   $scope.myData.doClick = function(item, event){
     alert("clicked: "+ item.postAuthor);
   }
-
+  //add likes to post
   $scope.count = function(post){
-    $scope.like = post.likes;
-    console.log("This is post ID: " ,post.$key);
-
     $scope.like = post.likes + 1;
     var likeRef = $scope.myData.child(post.$key);
-    likeRef.update({
-      likes:$scope.like
-    });
-  //  $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
-  //  $scope.myData.update({likes:$scope.newLikes});
+      likeRef.update({
+        likes:$scope.like
+      });
+    }
 
-  console.log("I think this is index of the post" +   $scope.like);
-}
+  $scope.delete = function(post){
+
+  }
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
