@@ -1,20 +1,20 @@
-<ion-view view-title="Messages" >
+<ion-view view-title="Create Post" >
   <ion-content class="padding" ng-controller="DashCtrl">
     <div class = "list">
     <div class="list card">
-      <div class="item item-divider"><h1><i class = "icon ion-email"></i> Please enter post:</h1></div>
+      <h2><i class = "icon ion-email"></i> Please enter post:</h1>
       <div class="item item-body">
-        <label><h2>Please <span ng-bind="auth.profile.given_name"></span>, provide Content here :</h2></label>
-        <input type="text" id = "postContent" ng-model ="postContent"> <br />
+        <label><h2>Please <span ng-bind="auth.profile.given_name"></span>, type content below:</h2></label>
 
-
-
-
+        <label class="item item-input item-floating-label">
+            <span class="input-label">Content</span>
+            <input type="text" placeholder="enter content here..." ng-model ="postContent">
+          </label> <br />
         <div>
-          <button ng-click="getPhoto()" class="button button-block button-primary">Take Photo</button>
-          <img ng-src="{{lastPhoto}}" style="max-width: 100%">
+          <button ng-click="takePicture()" class="button button-block button-balanced"><i class="icon ion-camera"></i> Take Photo</button>
+          <img ng-src="{{postImage}}" style="max-width: 100%">
         </div>
-        <button class ="btn btn-default" ng-click="savePost()">Save <span class = "glyphicon glypicon-ok"></span></button>
+        <button class="button button-full button-positive" ng-click="savePost()"><i class = "icon ion-android-done"></i> Save</button>
       </div>
   </div>
 

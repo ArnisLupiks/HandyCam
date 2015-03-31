@@ -25,11 +25,7 @@ angular.module('starter.controllers', [])
   doAuth();
 })
 
-.config(function($compileProvider){
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
-})
-
-.controller('DashCtrl', function($scope, Camera, auth) {
+.controller('DashCtrl', function($scope, $state,  $cordovaCamera, auth) {
 
   $scope.auth = auth;
   $scope.postAuthorId = auth.profile.user_id;
@@ -41,20 +37,24 @@ angular.module('starter.controllers', [])
 
   $scope.myData = new Firebase('https://chatcathere.firebaseio.com/Posts');
   //takes picture
-  $scope.getPhoto = function() {
-    console.log('Getting camera');
-    Camera.getPicture().then(function(imageURI) {
-      console.log(imageURI);
-      $scope.postImage = imageURI;
-    }, function(err) {
-      console.err(err);
-    }, {
-      quality: 75,
-      targetWidth: 320,
-      targetHeight: 320,
-      saveToPhotoAlbum: false
-  });
-}
+  $scope.takePicture = function() {
+       var options = {
+           quality : 75,
+           destinationType : Camera.DestinationType.DATA_URL,
+           sourceType : Camera.PictureSourceType.CAMERA,
+           allowEdit : true,
+           encodingType: Camera.EncodingType.JPEG,
+           targetWidth: 300,
+           targetHeight: 300,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+           $scope.postImage = "data:image/jpeg;base64," + imageData;
+       }, function(err) {
+           // An error occured. Show a message to the user
+       });
+   };
    // save all parameters to database
    $scope.savePost = function(){
      $scope.myData.push({postAuthorId:$scope.postAuthorId,
@@ -65,7 +65,8 @@ angular.module('starter.controllers', [])
                          postDate:Date.now(),
                          likes:$scope.likes
                          });
-
+      },function(){
+        $state.go('tab.dash', {}, {reload: true, inherit: false});
    },function(err){
      console.log("some error in savePost "+err);
    };
@@ -145,9 +146,10 @@ angular.module('starter.controllers', [])
       };
       //dislike post
       $scope.dislike = function(post){
-        $scope.dislike = post.likes - 1;
-        var likeRef = $scope.myData.child(post.$key);
-          likeRef.update({
+        var minus = 1;
+        $scope.dislike = post.likes - minus;
+        var dislikeRef = $scope.myData.child(post.$key);
+        dislikeRef.update({
             likes:$scope.dislike
           });
       };
