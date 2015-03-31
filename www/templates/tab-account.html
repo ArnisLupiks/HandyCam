@@ -3,8 +3,8 @@
     <ion-list>
       <div class="item item-avatar">
         <img ng-src="{{auth.profile.picture}}">
-        <h2>{{auth.profile.name}}</h2>
-        <h2>{{auth.profile.email}}</h2>
+        <h2><span ng-bind = "auth.profile.name"></span></h2>
+        <h2><span ng-bind = "auth.profile.email"></span></h2>
 
       </div>
     </ion-list>

@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
       store.set('profile',profile);
       store.set('token',token);
       store.set('refreshToken',refreshToken);
-      $state.go('tab.dash');
+      $state.go('tab.chats');
     },function(){
       console.log('something fucked up now');
     });
@@ -65,8 +65,9 @@ angular.module('starter.controllers', [])
                          postDate:Date.now(),
                          likes:$scope.likes
                          });
-      },function(){
-        $state.go('tab.dash', {}, {reload: true, inherit: false});
+
+    
+        $state.go('tab.chats');
    },function(err){
      console.log("some error in savePost "+err);
    };
