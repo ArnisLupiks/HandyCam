@@ -147,10 +147,10 @@ angular.module('starter.controllers', [])
       //dislike post
       $scope.dislike = function(post){
         var minus = 1;
-        $scope.dislike = post.likes - minus;
+        $scope.like = post.likes - minus;
         var dislikeRef = $scope.myData.child(post.$key);
         dislikeRef.update({
-            likes:$scope.dislike
+            likes:$scope.like
           });
       };
       //delete post function
@@ -182,6 +182,16 @@ angular.module('starter.controllers', [])
           console.log('Thank you for deleting post');
         });
       };
+
+      //reset form
+         $scope.master = {};
+         $scope.maste = "";
+        $scope.reset = function() {
+             $scope.form = angular.copy($scope.master);
+             $scope.dt = angular.copy($scope.master);
+             console.log("reset has been pressed");
+           };
+           //$scope.reset();
 })
 
 .controller('AccountCtrl', function($scope,store,$state, auth) {
