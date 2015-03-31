@@ -139,7 +139,15 @@ angular.module('starter.controllers', [])
         likes:$scope.like
       });
     }
-
+    //dislike post
+    $scope.dislike = function(post){
+      $scope.dislike = post.likes - 1;
+      var likeRef = $scope.myData.child(post.$key);
+        likeRef.update({
+          likes:$scope.dislike
+        });
+      }
+  //delete post function
   $scope.delete = function(post){
     if (post.postAuthorId == auth.profile.user_id){
       var removePost = $scope.myData.child(post.$key);
