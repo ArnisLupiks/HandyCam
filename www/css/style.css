@@ -5,3 +5,19 @@
 .postsImg{
   max-height: 150px;
 }
+.background, .background .pane, .background .item, .background .item-complex .item-content {
+    background-color: #ececec;
+}
+/* custom button icon colors */
+.custom-icon-like {
+
+  color : green;
+}
+.custom-icon-dislike {
+
+  color : red;
+}
+.background .main-list{
+  background-color:#aeb45b;
+
+}

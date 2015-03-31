@@ -4,7 +4,7 @@
       <ion-item  ng-repeat="post in Posts | toArray | orderBy:'-postDate'" >
 
 
-        <div class="list card">
+        <div class="card">
 
           <div class="item item-avatar">
             <img ng-src="{{post.postAuthorPic}}">
@@ -24,11 +24,11 @@
 
           <div class="item tabs tabs-secondary tabs-icon-left">
             <a class="tab-item" ng-click = "count(post)">
-              <i class="icon ion-thumbsup"></i>
+              <i class="icon ion-thumbsup custom-icon-like"></i>
               Like
             </a>
             <a class="tab-item" ng-click = "dislike(post)">
-              <i class="icon ion-thumbsdown"></i>
+              <i class="icon ion-thumbsdown custom-icon-dislike"></i>
               Dislike
             </a>
             <a class="tab-item"  ng-click = "delete(post)">
